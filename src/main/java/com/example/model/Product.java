@@ -1,18 +1,28 @@
 package com.example.model;
 
+import javax.persistence.*;
 
+@Entity
+@Table(name = "product")
 public class Product {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     private String name;
-    private float price;
+    private double price;
     private int quantity;
-    private int shopId;
+    @ManyToOne
+    @JoinColumn(name = "shop_id")
+    private Shop shop;
 
-    public Product(String name, float price, int quantity, int shopId) {
+    public Product() {
+    }
+
+    public Product(String name, double price, int quantity, Shop shop) {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
-        this.shopId = shopId;
+        this.shop = shop;
     }
 
     public String getName() {
@@ -23,11 +33,11 @@ public class Product {
         this.name = name;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -39,11 +49,56 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public int getShopId() {
-        return shopId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setShopId(int shopId) {
-        this.shopId = shopId;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", quantity=" + quantity +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Product product = (Product) o;
+
+        if (Double.compare(product.price, price) != 0) return false;
+        if (quantity != product.quantity) return false;
+        if (!id.equals(product.id)) return false;
+        if (!name.equals(product.name)) return false;
+        return shop.equals(product.shop);
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = id.hashCode();
+        result = 31 * result + name.hashCode();
+        temp = Double.doubleToLongBits(price);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + quantity;
+        result = 31 * result + shop.hashCode();
+        return result;
     }
 }

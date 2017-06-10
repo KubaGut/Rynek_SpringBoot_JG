@@ -11,6 +11,10 @@
 
 <p> ${shop.name} WITAMY W STREFIE SPRZEDAWCY!!</p>
 
-
-</body>
-</html>
+<div> DODAJ PRODUKT DO OFERTY </div>
+<form method="post" action="/home/shops/addproduct">
+    <input type="text" name="name" value="" />
+    <input type="text" name="price" value=""/>
+    <input type="text" name="quantity" value=""/>
+    <input type="submit" value="LOG IN" />
+</form>

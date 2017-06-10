@@ -5,108 +5,113 @@ import com.example.model.Customer;
 import com.example.model.Order;
 import com.example.model.Product;
 import com.example.model.Shop;
+import com.example.repository.CustomerRepository;
+import com.example.repository.OrderRepository;
+import com.example.repository.ProductRepository;
 import com.example.repository.ShopRepository;
 import com.google.common.collect.Lists;
+import jdk.nashorn.internal.runtime.options.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MainService {
 
     private final ShopRepository shopRepository;
+    private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
+    private final CustomerRepository customerRepository;
 
     @Autowired
-    public MainService(ShopRepository shopRepository) {
+    public MainService(ShopRepository shopRepository, ProductRepository productRepository,
+                       OrderRepository orderRepository, CustomerRepository customerRepository) {
         this.shopRepository = shopRepository;
+        this.productRepository = productRepository;
+        this.orderRepository = orderRepository;
+        this.customerRepository = customerRepository;
     }
 
     public void addShop(Shop shop){
-        shopRepository.addShop(shop);
+        shopRepository.save(shop);
+    }
+    public void deleteShop(Shop shop) {
+        shopRepository.delete(shop);
+    }
+    public Shop findShopByName(String shopName) {
+       return shopRepository.findShopByName(shopName);
     }
 
-    public void deleteShop(Shop shop){
-        shopRepository.deleteShop(shop);
-    }
-    public void editShop(int id, String name, String password ) {
-        shopRepository.editShop(id, name, password );
-    }
     public void addProduct(Product product){
-        shopRepository.addProduct(product);
+        productRepository.save(product);
     }
     public void deleteProduct(Product product){
-        shopRepository.deleteProduct(product);
+        productRepository.delete(product);
     }
+    //public void editProduct(int id) {
+     //   shopRepository.editProduct(shopid, quantity,price);
+    //}
 
-    public void editProduct(int shopid, int quantity, float price) {
-        shopRepository.editProduct(shopid, quantity,price);
-    }
     public void addCustomer (Customer customer) {
-        shopRepository.addCustomer(customer);
+        customerRepository.save(customer);
     }
-    public void editCustomer(int id, String name, String password){
-        shopRepository.editCustomer(id, name, password);
+    public void deleteCustomer(Customer customer) {
+        customerRepository.delete(customer);
     }
-    public boolean addOrder(Order order){
-        for (Shop s : shopRepository.getListOfShops() ) {
-            if (order.getProduct().getShopId() == s.getId()) {
-                for (Product p : s.getShopProductList()) {
-                    if (order.getProduct().getName().equals(p.getName())) {
-                        if (order.getProduct().getQuantity() <= p.getQuantity()) {
-                            shopRepository.addOrder(order);
-                            return true;
-                        }
-                        else return false;
-                    }
-                    else return false;
-                }
-            }
-            else return false;
+    //public void editCustomer(int id, String name, String password){
+     //   shopRepository.editCustomer(id, name, password);
+    //}
+
+    public boolean addOrder(Order order) {
+        for (Product p : productRepository.findAll()) {
+            if (p.getId() == order.getProductId()) {
+                if (p.getQuantity() >= order.getQuantity()) {
+                    orderRepository.save(order);
+                    // edit shop -> product shopRepository.
+                    return true;
+                } else return false;
+            } else return false;
         }
         return true;
     }
+
     public List<Shop> getShopsList(){
-        return shopRepository.getListOfShops();
+        return (List) shopRepository.findAll();
     }
     public List<Product> getProductsList(){
-        return shopRepository.getListOfProducts();
+        return (List) productRepository.findAll();
     }
-    public List<Product> getProductListbyId(String productName){
-        List<Product> listOfProductByID = Lists.newArrayList();;
-        for(Product p:  shopRepository.getListOfProducts()){
-                if (productName.equals(p.getName())){
-                    listOfProductByID.add(p);
+    public List<Product> getProductListbyName (String productName){
+        List<Product> productList = new ArrayList();
+        for(Product p : productRepository.findAll()){
+                if (p.getName().equals(productName)){
+                    productList.add(p);
                 }
-        }
-        return listOfProductByID;
+            }
+        return productList;
     }
     public List<Product> getProductListbyShop(int shopId){
-        List<Product> listOfProductByShop = Lists.newArrayList();
-        for(Product p:  shopRepository.getListOfProducts()){
-            if (shopId == p.getShopId()){
-                listOfProductByShop.add(p);
-            }
-        }
-        return listOfProductByShop;
+        return shopRepository.findOne(shopId).getShopProductList();
     }
     public List<Order> getOrdersListByCustomer(int customerId){
-        List<Order> listOfOrdersByCustomer = Lists.newArrayList();;
-        for(Order o : shopRepository.getListOfOrders()){
-            if(customerId == o.getCustomerId()) {
-                listOfOrdersByCustomer.add(o);
+        List<Order> ordersList = new ArrayList();
+        for(Order o : orderRepository.findAll()){
+            if (o.getCustomer().getId().equals(customerId)){
+                ordersList.add(o);
             }
         }
-
-        return listOfOrdersByCustomer;
+        return ordersList;
     }
     public List<Order> getOrdersListByShop (int shopId){
-        List<Order> listOfOrdersByShop = Lists.newArrayList();;
-        for(Order o : shopRepository.getListOfOrders()){
-            if(shopId == o.getProduct().getShopId()) {
-                listOfOrdersByShop.add(o);
+        List<Order> ordersList = new ArrayList();
+        for(Order o : orderRepository.findAll()){
+            if (o.getShopId() == (shopId)){
+                ordersList.add(o);
             }
         }
-        return listOfOrdersByShop;
+        return ordersList;
     }
 }
