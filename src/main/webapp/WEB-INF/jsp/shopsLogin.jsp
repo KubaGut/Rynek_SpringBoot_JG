@@ -9,7 +9,7 @@
 <a href="/home/orders">ZAMOW</a>
 
 <div> CREATE ACCOUNT </div>
-<form type="post" action="/home/shops/login">
+<form method="post" action="/home/shops/login">
     <input type="text" name="Login" value="" />
     <input type="password" name="Password" value=""/>
     <input type="submit" value="LOG IN" />
