@@ -64,6 +64,9 @@ public class MainService {
     //public void editCustomer(int id, String name, String password){
      //   shopRepository.editCustomer(id, name, password);
     //}
+    public List<Customer> getCustomerList(){
+        return (List) customerRepository.findAll();
+    }
 
     public boolean addOrder(Order order) {
         for (Product p : productRepository.findAll()) {

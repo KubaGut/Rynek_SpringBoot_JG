@@ -6,12 +6,14 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "customer")
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
     private String password;
+    private String role;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     List<Order> orders = Lists.newArrayList();
@@ -19,9 +21,10 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String name, String password) {
+    public Customer(String name, String password, String role) {
         this.name = name;
         this.password = password;
+        this.role = role;
     }
 
     public Integer getId() {
@@ -55,6 +58,14 @@ public class Customer {
 
     public void setOrders(List<Order> orders) {
         this.orders = orders;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override

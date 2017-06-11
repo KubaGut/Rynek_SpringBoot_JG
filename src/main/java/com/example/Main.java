@@ -1,5 +1,6 @@
 package com.example;
 
+import com.example.model.Customer;
 import com.example.model.Product;
 import com.example.model.Shop;
 import com.example.repository.ProductRepository;
@@ -27,7 +28,7 @@ public class Main implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
 
-       /* Shop shop1 = new Shop("sklep1", "haslo1");
+        Shop shop1 = new Shop("sklep1", "haslo1");
         Shop shop2 = new Shop("sklep2", "haslo2");
 
         mainService.addShop(shop1);
@@ -37,9 +38,15 @@ public class Main implements CommandLineRunner {
         mainService.addProduct(product1);
         mainService.addProduct(product2);
 
+        Customer klient1 = new Customer("klien1", "klient1", "USER");
+        Customer klient2 = new Customer("klien2", "klient2", "USER");
+        mainService.addCustomer(klient1);
+
+
         System.out.println(mainService.getProductsList());
         System.out.println(mainService.getShopsList());
-    */
+        System.out.println(mainService.getCustomerList());
+
     }
 
 }
