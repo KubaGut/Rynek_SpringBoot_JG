@@ -8,9 +8,9 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private Integer shopId;
-    private Integer productId;
-    private Integer quantity;
+    private int shopId;
+    private int productId;
+    private int quantity;
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
@@ -33,27 +33,27 @@ public class Order {
         this.id = id;
     }
 
-    public Integer getShopId() {
+    public int getShopId() {
         return shopId;
     }
 
-    public void setShopId(Integer shopId) {
+    public void setShopId(int shopId) {
         this.shopId = shopId;
     }
 
-    public Integer getProductId() {
+    public int getProductId() {
         return productId;
     }
 
-    public void setProductId(Integer productId) {
+    public void setProductId(int productId) {
         this.productId = productId;
     }
 
-    public Integer getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
@@ -74,4 +74,29 @@ public class Order {
                 ", quantity=" + quantity +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Order order = (Order) o;
+
+        if (shopId != order.shopId) return false;
+        if (productId != order.productId) return false;
+        if (quantity != order.quantity) return false;
+        if (!id.equals(order.id)) return false;
+        return customer.equals(order.customer);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id.hashCode();
+        result = 31 * result + shopId;
+        result = 31 * result + productId;
+        result = 31 * result + quantity;
+        result = 31 * result + customer.hashCode();
+        return result;
+    }
+
 }

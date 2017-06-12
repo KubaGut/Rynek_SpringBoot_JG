@@ -77,4 +77,28 @@ public class Customer {
                 ", orders=" + orders +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Customer customer = (Customer) o;
+
+        if (id != null ? !id.equals(customer.id) : customer.id != null) return false;
+        if (name != null ? !name.equals(customer.name) : customer.name != null) return false;
+        if (password != null ? !password.equals(customer.password) : customer.password != null) return false;
+        if (role != null ? !role.equals(customer.role) : customer.role != null) return false;
+        return orders != null ? orders.equals(customer.orders) : customer.orders == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
+        result = 31 * result + (orders != null ? orders.hashCode() : 0);
+        return result;
+    }
 }
