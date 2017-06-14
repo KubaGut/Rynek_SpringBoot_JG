@@ -15,7 +15,6 @@ public class home {
         return "home";
     }
 
-
     @GetMapping("/shoplist")
     public String shoplist(){
         return "shoplist";
@@ -24,10 +23,11 @@ public class home {
     public String findproducts(){
         return "findproducts";
     }
-    @GetMapping("/shops")
-    public String shopsLogin(){
-        return "shopsLogin";
-    }
+
+   @GetMapping("/shops")
+   public String login(){
+      return "shops";
+   }
     @GetMapping("/orders")
     public String ordersLogin(){
         return "ordersLogin";

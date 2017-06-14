@@ -28,24 +28,24 @@ public class Main implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception {
 
-        Shop shop1 = new Shop("sklep1", "haslo1");
-        Shop shop2 = new Shop("sklep2", "haslo2");
+        Shop shop1 = new Shop("sklep1", "haslo1", "SHOP");
+        Shop shop2 = new Shop("sklep2", "haslo2", "SHOP");
 
         mainService.addShop(shop1);
         mainService.addShop(shop2);
-        Product product1 = new Product("Marchew", 2.2, 3, mainService.findShopByName("sklep1"));
-        Product product2 = new Product("Ziemniaki", 1.3, 3,  mainService.findShopByName("sklep2"));
-        mainService.addProduct(product1);
-        mainService.addProduct(product2);
+        //Product product1 = new Product("Marchew", 2.2, 3, mainService.findShopByName("sklep1"));
+        //Product product2 = new Product("Ziemniaki", 1.3, 3,  mainService.findShopByName("sklep2"));
+        //mainService.addProduct(product1);
+        //mainService.addProduct(product2);
 
-        Customer klient1 = new Customer("klien1", "klient1", "USER");
-        Customer klient2 = new Customer("klien2", "klient2", "USER");
-        mainService.addCustomer(klient1);
+        //Customer klient1 = new Customer("klien1", "klient1", "USER");
+       // Customer klient2 = new Customer("klien2", "klient2", "USER");
+        //mainService.addCustomer(klient1);
 
 
-        System.out.println(mainService.getProductsList());
-        System.out.println(mainService.getShopsList());
-        System.out.println(mainService.getCustomerList());
+        //System.out.println(mainService.getProductsList());
+        //System.out.println(mainService.getShopsList());
+        //System.out.println(mainService.getCustomerList());
 
     }
 
